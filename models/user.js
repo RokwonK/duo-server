@@ -1,17 +1,24 @@
 const { Model, DataTypes } = require('sequelize');
 
+// users 테이블 : posts 테이블 = 1:N
 class User extends Model {
     static initialize(sequelize) {
         super.init(
             {
                 userid : {
-                    type : DataTypes.STRING,
+                    type : DataTypes.STRING(30),
                     allowNull : false
                 },
                 sns : {
-                    type : DataTypes.STRING,
+                    type : DataTypes.STRING(20),
                     allowNull : false,
                     defaultValue : ''
+                },
+                nickname : {
+                    type : DataTypes.STRING(20),
+                    unique : true,
+                    allowNull : false,
+                    primaryKey : true
                 }
             },
             {

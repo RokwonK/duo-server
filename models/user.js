@@ -16,9 +16,7 @@ class User extends Model {
                 },
                 nickname : {
                     type : DataTypes.STRING(20),
-                    unique : true,
                     allowNull : false,
-                    primaryKey : true
                 }
             },
             {

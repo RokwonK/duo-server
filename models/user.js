@@ -3,7 +3,7 @@ const { Model, DataTypes } = require('sequelize');
 // users 테이블 : posts 테이블 = 1:N
 class User extends Model {
     static initialize(sequelize) {
-        super.init(
+        return super.init(
             {
                 userid : {
                     type : DataTypes.STRING(30),

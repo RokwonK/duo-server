@@ -14,11 +14,11 @@ router.post('/', async (req,res) => {
     // 사실은 idtoken
     const { accesstoken } = req.body;
     const options = {
-        header : {
-            id_token : accesstoken
+        headers : {
+            "id_token" : accesstoken
         }
     }
-
+    console.log(accesstoken);
     const user_info = await fetch(url, options).then(data  => data.json());
     console.log(user_info);
 

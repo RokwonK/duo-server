@@ -14,8 +14,10 @@ router.post('/', async (req,res) => {
 
     try {
         const user_info = await fetch(url,options).then(data => data.json());
-        console.log(user_info);
-        res.redirect(302,`/login/user_confirm/${user_info.id}/naver`)
+        console.log(user_info.response.id);
+        res.send({"navelogin":"success"})
+
+        //res.redirect(302,`/login/user_confirm/${user_info.id}/naver`)
     }
     catch (err) {
         console.log(err)

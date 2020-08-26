@@ -30,10 +30,10 @@ router.post('/', async (req,res) => {
         const user_info = await fetch(sns_url[sns], options).then(data => data.json())
         if (user_info === 'undefined') throw 'wrong accesstoken'
 
-        if (sns === "google") { /* 아직 몰름 */ }
-        else if (sns === "naver") uid = user_info.response.id
-        else if (sns === "kakao") uid = user_info.id
-        else throw 'non-existent sns'
+        if (sns === "google") uid = user_info.sub;
+        else if (sns === "naver") uid = user_info.response.id;
+        else if (sns === "kakao") uid = user_info.id;
+        else throw 'non-existent sns';
 
         // findOrcreate로 없을 시 생성하는 코드로 교체 가능
         const userExist = await User.findOne({
@@ -42,6 +42,7 @@ router.post('/', async (req,res) => {
                 sns : sns
             }
         })
+
         if (userExist === null) {
             const userCreated = await User.create({
                 userid : uid,
@@ -53,8 +54,6 @@ router.post('/', async (req,res) => {
         else throw 'exist id'
     }
     catch (err) {
-        console.log(err)
-
         // 1. accesstoken이 잘못됨
         // 2. 존재하지 않는 sns
         // 3. user row 생성에서의 err

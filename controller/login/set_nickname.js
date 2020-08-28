@@ -2,7 +2,7 @@ const router = require('express').Router();
 const fetch = require('node-fetch');
 const { User, Sequelize : {Op} } = require('../../models');
 const sns_url = {
-    "kakao" : "https://kapi.kakao.com/v1/user/access_token_info",
+    "kakao" : "https://kapi.kakao.com/v1/user/access_token_info?id_token=",
     "naver" : "https://openapi.naver.com/v1/nid/me",
     "google" : "https://oauth2.googleapis.com/tokeninfo"
 }
@@ -21,13 +21,17 @@ router.post('/', async (req,res) => {
     let uid;
 
     if (sns === "google")
-        options["headers"] = { "id_token" : accesstoken} 
+        sns_url[sns] += accesstoken;
     else
         options["headers"] = { "Authorization" : "Bearer " + accesstoken }
 
 
     try {
-        const user_info = await fetch(sns_url[sns], options).then(data => data.json())
+        let user_info;
+        if (sns === "google")
+            user_info = await fetch(sns_url[sns]).then(data => data.json())
+        else 
+            user_info = await fetch(sns_url[sns], options).then(data => data.json())
         if (user_info === 'undefined') throw 'wrong accesstoken'
 
         if (sns === "google") uid = user_info.sub;

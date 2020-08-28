@@ -11,7 +11,7 @@
 2. `REST API`
 3. `Mysql`(sequelize)
 4. `Typescript`
-5. `AWS` EC2?, rds?
+5. `AWS`(EC2, RDS)
 6. ...
 
 <hr>
@@ -48,4 +48,10 @@
     - 프로젝트 생성 (MVC 패턴 활용)
     - 전체 흐름 코드 및 DB 연결
 
+- 20/08/27
+    - User 테이블
+    - 로그인 관련 api 완성
+
+- 20/08/28
+    - aws 구축 및 배포
 

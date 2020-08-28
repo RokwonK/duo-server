@@ -1,23 +1,30 @@
-const router = require('express').Router();
-const fetch = require('node-fetch');
+'use strict'
+const router = require('express').Router()
+const { User } = require('../../models')
 
-
-// '/login/user_confirm/'
-// user Table => user_id, sns, nickname, id(unique)
-
-// /login/user_confirm/:id/:sns
 router.get('/:id/:sns', async (req,res) => {
-    console.log(req.params.id, req.params.sns);
-    // user Tabe 확인을 함
-    //      있으면 nickname과 id를 넘겨줌 {nickname : "n", id : 123}
-    //      없으면, client에다가 nickname 생성하세요 {nickname : "needNickname", id : -1 }
-
-
+    const snsId = req.params.id;
+    const sns = req.params.sns;
     
-    
-    
+    try {
+        const exUser = await User.findOne({
+            attributes : ['id', 'nickname'],
+            where : {
+                userid : snsId,
+                sns : sns
+            }
+        })
+        if (exUser)
+            res.send({'nickname' : exUser.nickname, 'id' : exUser.id})
+        else {
+            console.log('nickname 생성 필요')
+            res.send({'nickname':'needNickname', 'id': -1})
+        }
+    }
+    catch(err) {
+        console.log(err)
 
-    res.send("good confirm");
+    }
+
 })
-
-module.exports = router;
+module.exports = router

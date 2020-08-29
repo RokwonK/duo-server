@@ -17,10 +17,23 @@ router.post('/', async (req,res) => {
     const options = {"id_token" : accesstoken}
     const query = '?' + querystring.stringify(options);
     
-    const user_info = await fetch(url+query).then(data  => data.json());
-    console.log(user_info)
-    console.log(user_info.sub);
-    res.send("/login/google");
+    try {
+        const user_info = await fetch(url+query).then(data  => data.json());
+        if (user_info === 'undefined') throw 'bad token'
+
+        console.log(user_info)
+        res.send("/login/google");
+        res.redirect(302,`/login/user_confirm/${user_info.sub}/google`)
+    }
+    catch(err) {
+        console.log(err)
+        
+        if (err === 'bad token')
+            res.status(412).send({'msg' : err, 'code' : -412});
+        else
+            res.status(500).send({'msg' : 'server error', 'code' : -500})
+    }
+
 })
 
 module.exports = router;

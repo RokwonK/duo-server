@@ -16,19 +16,19 @@ router.post('/', async (req,res) => {
 
     try {
         const user_info = await fetch(url,options).then(data => data.json());
+        if (user_info === 'undefined') throw 'bad token'
+
         console.log(user_info);
-        console.log(user_info.id)
-        res.send({"kakaologin":"success"})
-        //res.redirect(302,`/login/user_confirm/${user_info.id}/kakao`)
+        //res.send({"kakaologin":"success"})
+        res.redirect(302,`/login/user_confirm/${user_info.id}/kakao`)
     }
     catch (err) {
         console.log(err)
         
-        // 1. accesstoken의 유효기간이 지났을 경우 => 프론트 단에서 처리해아함 
-        // 2. 잘못된 accesstoken일 경우 => 권한없음(인증이 안됨)
-        res.status(401).send({"token_info" : "need "})
-        // 3. kakao api 문제 => 500
-        res.status(500),send({"token_info" : "server error"})
+        if (err === 'bad token')
+            res.status(412).send({'msg' : err, 'code' : -412});
+        else
+            res.status(500).send({'msg' : 'server error', 'code' : -500})
     }    
 })
 

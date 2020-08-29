@@ -32,7 +32,7 @@ router.post('/', async (req,res) => {
             user_info = await fetch(sns_url[sns]).then(data => data.json())
         else 
             user_info = await fetch(sns_url[sns], options).then(data => data.json())
-        if (user_info === 'undefined') throw 'wrong accesstoken'
+        if (user_info === 'undefined') throw 'bad accesstoken'
 
         if (sns === "google") uid = user_info.sub;
         else if (sns === "naver") uid = user_info.response.id;
@@ -62,7 +62,7 @@ router.post('/', async (req,res) => {
         // 2. 존재하지 않는 sns
         // 3. user row 생성에서의 err
         if (err === 'bad accesstoken' || err === 'non-existent sns' || err === 'exist id in database')
-            res.status(412).send({'msg' : err, 'code' : -401})
+            res.status(412).send({'msg' : err, 'code' : -412})
         else res.status(500).send({'msg' : 'server error', 'code' : -500});
     }
 

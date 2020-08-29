@@ -7,6 +7,8 @@ router.get('/:id/:sns', async (req,res) => {
     const sns = req.params.sns;
     
     try {
+        if (snsid === 'undefined') throw 'token miss'
+
         const exUser = await User.findOne({
             attributes : ['id', 'nickname'],
             where : {
@@ -14,6 +16,7 @@ router.get('/:id/:sns', async (req,res) => {
                 sns : sns
             }
         })
+    
         if (exUser)
             res.send({'nickname' : exUser.nickname, 'id' : exUser.id})
         else {
@@ -23,7 +26,10 @@ router.get('/:id/:sns', async (req,res) => {
     }
     catch(err) {
         console.log(err)
-
+        if (err === 'token miss') 
+            res.status(412).send({'msg' : 'bad token', 'code' : -412})
+        else
+            res.status(500).send({'msg' : 'server error', 'code' : -500 })
     }
 
 })

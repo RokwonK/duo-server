@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
-const { User, Sequelize : {Op} } = require('../../models');
+const { User } = require('../../models');
 const sns_url = {
     "kakao" : "https://kapi.kakao.com/v1/user/access_token_info?id_token=",
     "naver" : "https://openapi.naver.com/v1/nid/me",
@@ -55,15 +55,15 @@ router.post('/', async (req,res) => {
             })
             res.send({"nickname" : userCreated.nickname, "id" : userCreated.id});
         } 
-        else throw 'exist id'
+        else throw 'exist id in database'
     }
     catch (err) {
         // 1. accesstoken이 잘못됨
         // 2. 존재하지 않는 sns
         // 3. user row 생성에서의 err
-        if (err === 'wrong accesstoken' || err === 'non-existent sns' || err === 'exist id')
-            res.status(401).send({'msg' : err, code : -401})
-        else res.status(500).send({'msg' : 'server error', code : -500});
+        if (err === 'bad accesstoken' || err === 'non-existent sns' || err === 'exist id in database')
+            res.status(412).send({'msg' : err, 'code' : -401})
+        else res.status(500).send({'msg' : 'server error', 'code' : -500});
     }
 
 })

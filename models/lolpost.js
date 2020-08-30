@@ -1,62 +1,62 @@
-const Sequelize = require('sequelize')
+const { Model, DataTypes } = require('sequelize')
 
 
-module.exports = class LoLPost extends Sequelize.Model {
+module.exports = class LoLPost extends Model {
     static initialize(sequelize) {
         return super.init(
             {
                 gameMode: {
-                    type: Sequelize.STRING(10),
+                    type: DataTypes.STRING(10),
                     allowNull: false,
                     defaultValue: '',
                 },
                 title: {
-                    type: Sequelize.STRING(30),
+                    type: DataTypes.STRING(30),
                     allowNull: false,
                     defaultValue: '',
                 },
                 startTier: {
-                    type: Sequelize.INTEGER,
+                    type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: '',
+                    defaultValue: 0,
                 },
                 endTier: {
-                    type: Sequelize.INTEGER,
+                    type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: '',
+                    defaultValue: 0,
                 },
                 startTime: {
-                    type: Sequelize.STRING(10),
+                    type: DataTypes.STRING(10),
                     allowNull: false,
                     defaultValue: '',
                 },
                 headCount: {
-                    type: Sequelize.INTEGER,
+                    type: DataTypes.INTEGER,
                     allowNull: false,
                     defaultValue: 0,
                 },
                 top: {
-                    type: Sequelize.INTEGER,
+                    type: DataTypes.INTEGER,
                     allowNull: false,
                     defaultValue: 0,
                 },
                 jungle: {
-                    type: Sequelize.INTEGER,
+                    type: DataTypes.INTEGER,
                     allowNull: false,
                     defaultValue: 0,
                 },
                 mid: {
-                    type: Sequelize.INTEGER,
+                    type: DataTypes.INTEGER,
                     allowNull: false,
                     defaultValue: 0,
                 },
                 bottom: {
-                    type: Sequelize.INTEGER,
+                    type: DataTypes.INTEGER,
                     allowNull: false,
                     defaultValue: 0,
                 },
                 support: {
-                    type: Sequelize.INTEGER,
+                    type: DataTypes.INTEGER,
                     allowNull: false,
                     defaultValue: 0,
                 },

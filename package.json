@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=production PORT=80 node server"
+    "start": "cross-env NODE_ENV=production pm2 start app.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "mysql2": "^2.1.0",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.4",
+    "pm2": "^4.4.1",
     "sequelize": "^6.3.4",
     "uuid": "^8.3.0"
   }

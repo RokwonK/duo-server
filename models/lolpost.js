@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 
 
 module.exports = class LoLPost extends Sequelize.Model {
-    static init(sequelize) {
+    static initialize(sequelize) {
         return super.init(
             {
                 gameMode: {

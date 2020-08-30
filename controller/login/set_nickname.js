@@ -2,9 +2,9 @@ const router = require('express').Router();
 const fetch = require('node-fetch');
 const { User } = require('../../models');
 const sns_url = {
-    "kakao" : "https://kapi.kakao.com/v1/user/access_token_info?id_token=",
+    "kakao" : "https://kapi.kakao.com/v1/user/access_token_info",
     "naver" : "https://openapi.naver.com/v1/nid/me",
-    "google" : "https://oauth2.googleapis.com/tokeninfo"
+    "google" : "https://oauth2.googleapis.com/tokeninfo?id_token="
 }
 
 // 프론트에서 
@@ -42,14 +42,14 @@ router.post('/', async (req,res) => {
         // findOrcreate로 없을 시 생성하는 코드로 교체 가능
         const userExist = await User.findOne({
             where : {
-                userid : uid,
+                snsid : uid,
                 sns : sns
             }
         })
 
         if (userExist === null) {
             const userCreated = await User.create({
-                userid : uid,
+                snsid : uid,
                 sns : sns,
                 nickname : nickname,
             })

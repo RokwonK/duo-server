@@ -22,7 +22,7 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.User = User.initialize(sequelize)
-db.LoLPost = LoLPost.init(sequelize)
+db.LoLPost = LoLPost.initialize(sequelize)
 
 User.associate(db)
 LoLPost.associate(db)

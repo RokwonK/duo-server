@@ -5,7 +5,7 @@ class User extends Model {
     static initialize(sequelize) {
         return super.init(
             {
-                userid : {
+                snsid : {
                     type : DataTypes.STRING(30),
                     allowNull : false
                 },
@@ -32,6 +32,12 @@ class User extends Model {
                 underscored : false,
                 charset : 'utf8'
             }
+        )
+    }
+    static associate(db) {
+        db.User.hasMany(
+            db.LoLPost,
+            { foreignKey: 'userid', sourceKey: 'id' }
         )
     }
 }

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-const LoLPost = require('./lolpost');
 const User = require('./user');
+const LoLPost = require('./lolpost');
 
 // 배포된게 아니면 개발로 사용
 const env = process.env.NODE_ENV || 'development'
@@ -27,4 +27,4 @@ db.LoLPost = LoLPost.initialize(sequelize)
 User.associate(db)
 LoLPost.associate(db)
 
-module.exports =  db;
+module.exports = db;

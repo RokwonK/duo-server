@@ -1,18 +1,21 @@
 const router = require('express').Router()
-const ctrl = require('./postctrl')
-
 
 // '/post/lol'
 router.get('/', (req, res) => {
     res.send('lol!')
 })
 
-router.post('/getpost', ctrl.get_post)
+// '/post/lol/getpost'
+router.use('/getpost', require('./getpost'));
 
-router.post('/uploadpost', ctrl.post_uploadpost)
+// '/post/lol/uploadpost'
+router.use('/uploadpost', require('./uploadpost'));
 
-router.post('/updatepost', ctrl.post_updatepost)
+// '/post/lol/updatepost'
+router.use('/updatepost', require('./updatepost'));
 
-router.post('/deletepost', ctrl.post_deletepost)
+// '/post/lol/deletepost'
+router.use('/deletepost', require('./deletepost'));
 
-router.post('/mypost', ctrl.post_mypost)
+
+module.exports = router;

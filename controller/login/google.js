@@ -22,7 +22,7 @@ router.post('/', async (req,res) => {
         if (user_info === 'undefined') throw 'bad token'
 
         console.log(user_info)
-        res.send("/login/google");
+        // res.send("/login/google");
         res.redirect(302,`/login/user_confirm/${user_info.sub}/google`)
     }
     catch(err) {

@@ -7,8 +7,10 @@ const post = require('./post');
 //전체 라우터 통제하는 구간
 
 
-// '/login
+// '/login'
 router.use('/login', login)
+
+// '/post'
 router.use('/post', post)
 
 router.get('/', (req,res) => {

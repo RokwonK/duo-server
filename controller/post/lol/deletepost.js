@@ -1,7 +1,7 @@
 'use strict'
 
 const router = require('express').Router();
-const { Post } = require('../../../models')
+const { LoLPost } = require('../../../models')
 
 // '/post/lol/deletepost'
 router.post('/', async (req, res) => {
@@ -10,8 +10,9 @@ router.post('/', async (req, res) => {
 
     const postid = req.body.id
     try {
-        const result = await Post.destroy({ where: { id: postid } })
-        res.json(result)
+        const result = LoLPost.destroy({ where: { id: postid } })
+        console.log(result)
+        res.send({'msg' : 'delete success'});
     }
     catch (err) {
         if (err === 'bad access')

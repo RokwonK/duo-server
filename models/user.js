@@ -5,7 +5,7 @@ module.exports = class User extends Model {
     static initialize(sequelize) {
         return super.init(
             {
-                snsid : {
+                snsId : {
                     type : DataTypes.STRING(30),
                     allowNull : false
                 },
@@ -37,7 +37,7 @@ module.exports = class User extends Model {
     static associate(db) {
         db.User.hasMany(
             db.LoLPost,
-            { foreignKey: 'userid', sourceKey: 'id' }
+            { foreignKey: 'userId', sourceKey: 'id' }
         )
     }
 }

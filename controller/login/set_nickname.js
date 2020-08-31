@@ -42,14 +42,14 @@ router.post('/', async (req,res) => {
         // findOrcreate로 없을 시 생성하는 코드로 교체 가능
         const userExist = await User.findOne({
             where : {
-                snsid : uid,
+                snsId : uid,
                 sns : sns
             }
         })
 
         if (userExist === null) {
             const userCreated = await User.create({
-                snsid : uid,
+                snsId : uid,
                 sns : sns,
                 nickname : nickname,
             })

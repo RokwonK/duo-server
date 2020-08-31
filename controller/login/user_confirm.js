@@ -12,7 +12,7 @@ router.get('/:id/:sns', async (req,res) => {
         const exUser = await User.findOne({
             attributes : ['id', 'nickname'],
             where : {
-                snsid : snsId,
+                snsId : snsId,
                 sns : sns
             }
         })

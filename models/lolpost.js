@@ -60,6 +60,11 @@ module.exports = class LoLPost extends Model {
                     allowNull: false,
                     defaultValue: 0,
                 },
+                talkon: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    defaultValue: 0,
+                },
             },
             {
                 sequelize,
@@ -80,7 +85,7 @@ module.exports = class LoLPost extends Model {
     static associate(db) {
         db.LoLPost.belongsTo(
             db.User, 
-            { foreignKey: 'userid', targetKey: 'id'}
+            { foreignKey: 'userId', targetKey: 'id'}
         )
     }
 

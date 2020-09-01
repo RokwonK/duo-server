@@ -1,7 +1,7 @@
 'use strict'
 
 const router = require('express').Router()
-const { Op } = require('sequelize')
+const { Op, where } = require('sequelize')
 const { LoLPost } = require('../../../models')
 
 
@@ -28,80 +28,54 @@ router.post('/', async (req, res) => {
 router.post('/getpost/filter', async (req, res) => {
     //console.log('get post filter')
     if (req === 'undefined') throw 'bad access'
+    const {
+        gameMode,
+        headCount,
+        wantTier,
+        startTime,
+        top, bottom, mid, jungle, support,
+        talkon,
+    } = req.body;
 
-    // 필터
-    /* gameMode: 일치할 때
-       startTier, endTier: (startTier <= endTier) && (endTier >= startTier) 인 범위
-       headCount: 이하
-       position: 1->x, 2->o, 3->상관x
-       talkOn: 1->x, 2->o, 3->상관x  */
 
-    /* position,talkOn 구분
-       position 상관없음, talkOn 구분
-       position 구분, talkOn 상관없음
-       position, talkOn 상관없음  */
-
-    
-    // gameMode, headCount 추가로 구분해야함
     try {
-        if (top !== 2 && talkOn !== 2) {  // position, talkOn 둘 다 구분
-            const posts = await LoLPost.findAll({
-                where: {
-                    gamgeMode: gameMode,
-                    [Op.and]: [{ startTier: { [Op.lte]: endTier } }, { endTirer: { [Op.gte]: startTier } }],
-                    startTime: startTime,
-                    headCount: headCount,
-                    top: top, bottom: bottom, mid: mid, jungle: jungle, support: support,
-                    talkon: talkOn
-                }
-            })
-            res.json(posts)
-        }
-        else if (top === 2 && talkOn !== 2) {  // position 상관없음, talkOn 구분
-            const posts = await LoLPost.findAll({
-                where: {
-                    gamgeMode: gameMode,
-                    [Op.and]: [{ startTier: { [Op.lte]: endTier } }, { endTirer: { [Op.gte]: startTier } }],
-                    startTime: startTime,
-                    headCount: headCount,
-                    talkon: talkOn
-                }
-            })
-            res.json(posts)
-        }
-        else if (top !== 2 && talkOn === 2) {  // position 구분, talkOn 상관없음
-            const posts = await LoLPost.findAll({
-                where: {
-                    gamgeMode: gameMode,
-                    [Op.and]: [{ startTier: { [Op.lte]: endTier } }, { endTirer: { [Op.gte]: startTier } }],
-                    startTime: startTime,
-                    headCount: headCount,
-                    top: top, bottom: bottom, mid: mid, jungle: jungle, support: support,
-                }
-            })
-            res.json(posts)
-        }
-        else /*if (top === 2 && talkOn === 2)*/ {  // position, talkOn 상관없음
-            const posts = await LoLPost.findAll({
-                where: {
-                    gamgeMode: gameMode,
-                    [Op.and]: [{ startTier: { [Op.lte]: endTier } }, { endTirer: { [Op.gte]: startTier } }],
-                    startTime: startTime,
-                    headCount: headCount,
-                    top: top, bottom: bottom, mid: mid, jungle: jungle, support: support,
-                    talkon: talkOn
-                }
-            })
-            res.json(posts)
-        }
+        const whereOptions = {};
+        const indexName = ["top", "bottom", "mid", "jungle", "support", "talkon"];
+        const positionArray = [ top,bottom, mid, jungle, support, talkon ];
+
+        // find해서 일정 갯수만 보내주기, 프론트에서 화면의 끝에 다다들면 다시 개수요청
+        if (gameMode !== "all") whereOptions["gameMode"] = gameMode;
+        whereOptions["headCount"] = { [Op.lte] : headCount }
+        // 자신이 포함되는 곳을 찾고 싶은 것
+        whereOptions["startTier"] = { [Op.lte] : wantTier }
+        whereOptions["endTier"] = { [Op.gte] : wantTier }
+        whereOptions["startTime"] = { [Op.gte] : startTime }
+        
+        positionArray.forEach((value, index) => {
+            if (value === 3)
+                whereOptions[indexName[index]] = { [Op.lte] : value}
+            else
+                whereOptions[indexName[index]] = value;
+        })
+
+        // 보내는 양의 갯수 제한을 둘 것인가?
+        const filteringData = await LoLPost.findAll({
+            where : whereOptions,
+            order : ["starTime", "ASC"]
+        })
+        if (!filteringData) throw 'no data'
+        
+        res.send(filteringData);
     }
     catch (err) {
-        if (err === 'bad access')
+        if (err === 'no data')
+            res.status(412).send({ 'msg': err, 'code': -412 })
+        else if (err === 'bad access')
             res.status(412).send({ 'msg': 'bad access', 'code': -412 })
         else
             res.status(500).send({ 'msg': 'server error', 'code': -500 })
     }
-
 })
+
 
 module.exports = router

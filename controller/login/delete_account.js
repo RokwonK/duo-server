@@ -11,15 +11,15 @@ router.post('/', async (req, res) => {
     // user 정보 받고
     // snsid, sns, nickname 3개 다 일치해야함
     const {
-        snsid,
+        snsId,
         sns,
         nickname
     } = req.body
 
     try {
-        User.destroy({
+        await User.destroy({
             where: {
-                [Op.and]: [{ snsid: snsid }, { sns: sns }, { nickname: nickname }]
+                [Op.and]: [{ snsId: snsId }, { sns: sns }, { nickname: nickname }]
             },
         })
         res.send({'msg' : 'delete success'})

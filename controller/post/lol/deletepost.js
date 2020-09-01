@@ -10,8 +10,7 @@ router.post('/', async (req, res) => {
 
     const postid = req.body.id
     try {
-        const result = LoLPost.destroy({ where: { id: postid } })
-        console.log(result)
+        LoLPost.destroy({ where: { id: postid } })
         res.send({'msg' : 'delete success'});
     }
     catch (err) {

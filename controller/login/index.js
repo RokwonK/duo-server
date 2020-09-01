@@ -17,8 +17,11 @@ router.use('/google', require('./google'));
 // '/login/user_confirm'
 router.use('/user_confirm', require('./user_confirm'))
 
-// '/login/set_nickname
+// '/login/set_nickname'
 router.use('/set_nickname', require('./set_nickname'))
+
+// '/login/delete_account'
+router.use('/delete_account', require('./delete_account'))
 
 
 // logout은 X - client에서 자신의 ac,rf 들을 지워버리면 됨

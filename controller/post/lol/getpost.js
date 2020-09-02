@@ -8,17 +8,14 @@ const { LoLPost } = require('../../../models')
 // '/post/lol/getpost'   처음 게시판 접속
 router.post('/', async (req, res) => {
     //console.log('get post')
-    if (req === 'undefined') throw 'bad access'
+
 
     try {
         const posts = await LoLPost.findAll()
         res.json(posts)
     }
     catch (err) {
-        if (err === 'bad access')
-            res.status(412).send({ 'msg': 'bad access', 'code': -412 })
-        else
-            res.status(500).send({ 'msg': 'server error', 'code': -500 })
+        res.status(500).send({ 'msg': 'server error', 'code': -500 })
     }
 })
 

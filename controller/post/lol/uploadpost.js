@@ -6,6 +6,7 @@ const {LoLPost} = require('../../../models');
 
 // '/post/lol/uploadpost'
 router.post('/', async (req,res) => {
+    
     const {
         userNickname,
         userId,
@@ -21,18 +22,28 @@ router.post('/', async (req,res) => {
         talkon
     } = req.body;
 
+    let value = [
+        userNickname,
+        userId,
+        gameMode,
+        title,
+        starTier,
+        endTier,
+        startTime,
+        headCount,
+        top, bottom, mid, jungle, support,
+        content,
+        talkon
+    ]
+
     try{
-        // 사용자에게 보내주는 id를 암호화해서 보내주기
-        // id를 복호화해서
-
-
-        // 인가된 사용자인지 확인 들어오기 전에 처리함
-        
+        value.forEach(v => {
+            if (!v || v === 'undefined') throw 'bad prameters' 
+        })
 
         const lolpostCreated = await LoLPost.create({
             userNickname,
             userId,
-
             gameMode,
             title,
             starTier,
@@ -49,7 +60,7 @@ router.post('/', async (req,res) => {
         res.send({'msg' : 'create success'});
     }
     catch (err) {
-        if (err === 'post create error')
+        if (err === 'post create error' || err === 'bad prameters')
             res.status(412).send({'msg' : err, 'code' : -412});
         else 
             res.status(500).send({'msg' : 'server error', 'code' : -500});

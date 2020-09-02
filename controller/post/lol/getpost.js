@@ -1,7 +1,7 @@
 'use strict'
 
 const router = require('express').Router()
-const { Op, where } = require('sequelize')
+const { Op } = require('sequelize')
 const { LoLPost } = require('../../../models')
 
 
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 
 
 // filter 셋팅 후 게시판 접속
-router.post('/getpost/filter', async (req, res) => {
+router.post('/filter', async (req, res) => {
     //console.log('get post filter')
     if (req === 'undefined') throw 'bad access'
     const {
@@ -41,7 +41,7 @@ router.post('/getpost/filter', async (req, res) => {
     try {
         const whereOptions = {};
         const indexName = ["top", "bottom", "mid", "jungle", "support", "talkon"];
-        const positionArray = [ top,bottom, mid, jungle, support, talkon ];
+        const positionArray = [ top, bottom, mid, jungle, support, talkon ];
 
         // find해서 일정 갯수만 보내주기, 프론트에서 화면의 끝에 다다들면 다시 개수요청
         if (gameMode !== "all") whereOptions["gameMode"] = gameMode;
@@ -59,12 +59,14 @@ router.post('/getpost/filter', async (req, res) => {
         })
 
         // 보내는 양의 갯수 제한을 둘 것인가?
+
         const filteringData = await LoLPost.findAll({
             where : whereOptions,
             order : ["starTime", "ASC"]
         })
         if (!filteringData) throw 'no data'
         
+        console.log(filteringData);
         res.send(filteringData);
     }
     catch (err) {

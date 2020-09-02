@@ -65,6 +65,11 @@ module.exports = class LoLPost extends Model {
                     allowNull: false,
                     defaultValue: 0,
                 },
+                content : {
+                    type: DataTypes.STRING(100),
+                    allowNull: false,
+                    defaultValue: '',
+                }
             },
             {
                 sequelize,
@@ -85,7 +90,10 @@ module.exports = class LoLPost extends Model {
     static associate(db) {
         db.LoLPost.belongsTo(
             db.User, 
-            { foreignKey: 'userId', targetKey: 'id'}
+            [
+                { foreignKey: 'userId', targetKey: 'id'},
+                { foreignKey: 'userNickname', targetKey: 'nickname'}
+            ]
         )
     }
 

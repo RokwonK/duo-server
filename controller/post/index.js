@@ -1,7 +1,28 @@
 const router = require('express').Router()
+const { User } = require('../../models')
 
 // 인가된 사용자 확인하고 next()
-router.use('/' ,  /* 인가된 사용자 확인*/ )
+router.use('/' ,  async (req, res, next) => {
+    const { id, userNickname } = req.body;
+    try {
+        const authorizedUser = await User.findOne({
+            where : {
+                id,
+                nickname : userNickname
+            }
+        })
+        console.log(authorizedUser)
+        if (!authorizedUser) throw 'bad user'
+        else next()
+    }
+    catch(err) {
+        if (err === 'bad user')
+            res.status(412).send({ 'msg': 'bad user', 'code': -412 })
+        else
+            res.status(500).send({ 'msg': 'server error', 'code': -500 })
+    }
+
+})
 
 
 // '/post/lol'

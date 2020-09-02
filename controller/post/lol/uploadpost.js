@@ -2,11 +2,12 @@
 
 const router = require('express').Router();
 const fetch = require('node-fetch');
+const {LoLPost} = require('../../../models');
 
 // '/post/lol/uploadpost'
 router.post('/', async (req,res) => {
     const {
-        nickname,
+        userNickname,
         userId,
         // 게시물에 올라갈 것들
         gameMode,
@@ -17,7 +18,7 @@ router.post('/', async (req,res) => {
         headCount,
         top, bottom, mid, jungle, support,
         content,
-        talkOn
+        talkon
     } = req.body;
 
     try{
@@ -25,12 +26,13 @@ router.post('/', async (req,res) => {
         // id를 복호화해서
 
 
-        // 인가된 사용자인지 확인           하는 로직들어갈 자리 => 쿠키로 구현해야 하나?
+        // 인가된 사용자인지 확인 들어오기 전에 처리함
         
 
         const lolpostCreated = await LoLPost.create({
-            nickname,
+            userNickname,
             userId,
+
             gameMode,
             title,
             starTier,
@@ -39,7 +41,7 @@ router.post('/', async (req,res) => {
             headCount,
             top, bottom, mid, jungle, support,
             content,
-            talkOn
+            talkon
         });
         console.log(lolpostCreated)
         if (lolpostCreated === null) throw 'post create error'

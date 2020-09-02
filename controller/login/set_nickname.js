@@ -1,11 +1,7 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
 const { User } = require('../../models');
-const sns_url = {
-    "kakao" : "https://kapi.kakao.com/v1/user/access_token_info",
-    "naver" : "https://openapi.naver.com/v1/nid/me",
-    "google" : "https://oauth2.googleapis.com/tokeninfo?id_token="
-}
+
 
 // 프론트에서 
 // { accesstoken : accesstoken, nickname : "dfdfdf", sns : "kakao"}
@@ -16,6 +12,12 @@ const sns_url = {
     
 // '/login/set_nickname'
 router.post('/', async (req,res) => {
+    const sns_url = {
+        "kakao" : "https://kapi.kakao.com/v1/user/access_token_info",
+        "naver" : "https://openapi.naver.com/v1/nid/me",
+        "google" : "https://oauth2.googleapis.com/tokeninfo?id_token="
+    }
+    
     const { accesstoken, nickname, sns } = req.body;
     const options = {}
     let uid;

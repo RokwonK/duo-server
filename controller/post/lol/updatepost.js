@@ -8,38 +8,35 @@ const { LoLPost } = require('../../../models')
 router.post('/', async (req,res) => {
     const {
         postId,
-        userId,
         // 게시물에 올라갈 것들
         gameMode,
         title,
-        starTier,
+        startTier,
         endTier,
         startTime,
         headCount,
         top, bottom, mid, jungle, support,
         content,
-        talkOn
+        talkon
     } = req.body;
 
     try{
-        // 인가된 사용자인지 확인하는 로직들어갈 자리 => 쿠키로 구현해야 하나?
-        // accesstoken? 쿠키 or session?
 
-        const lolpostUpdated = await LoLPost.update({
+        await LoLPost.update({
             gameMode,
             title,
-            starTier,
+            startTier,
             endTier,
             startTime,
             headCount,
             top, bottom, mid, jungle, support,
             content,
-            talkOn
+            talkon
         },{
             where : {id : postId}
         });
-        console(lolpostUpdated)
-        if (lolpostUpdated === null) throw 'post update error'
+        //console(lolpostUpdated)
+        //if (lolpostUpdated === null) throw 'post update error'
 
         res.send({'msg' : 'update success'});
     }

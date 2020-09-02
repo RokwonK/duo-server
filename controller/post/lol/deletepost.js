@@ -8,14 +8,15 @@ router.post('/', async (req, res) => {
     //console.log('delete post')
     if (req === 'undefined') throw 'bad access'
 
-    const postid = req.body.id
+    const postId = req.body.postId
     try {
-        LoLPost.destroy({ where: { id: postid } })
+        await LoLPost.destroy({ where: { id: postId } })
+
         res.send({'msg' : 'delete success'});
     }
     catch (err) {
-        if (err === 'bad access')
-            res.status(412).send({ 'msg': 'bad token', 'code': -412 })
+        if (err === 'bad access' || err === 'bad delete')
+            res.status(412).send({ 'msg': err, 'code': -412 })
         else
             res.status(500).send({ 'msg': 'server error', 'code': -500 })
     }

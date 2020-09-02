@@ -26,7 +26,7 @@ const app = express();
 // mysql과 연동
 sequelize.sync().then(() => f());
 
-const PORT = 80 || 8080;
+const PORT = 3000;
 const develope = process.env.NODE_ENV === 'development' ? 'dev' : 'combined';
 
 app.use(morgan(develope));

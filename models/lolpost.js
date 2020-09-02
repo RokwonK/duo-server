@@ -5,6 +5,10 @@ module.exports = class LoLPost extends Model {
     static initialize(sequelize) {
         return super.init(
             {
+                nickname : {
+                    type : DataTypes.STRING(20),
+                    allowNull : false,
+                },
                 gameMode: {
                     type: DataTypes.STRING(10),
                     allowNull: false,
@@ -90,10 +94,8 @@ module.exports = class LoLPost extends Model {
     static associate(db) {
         db.LoLPost.belongsTo(
             db.User, 
-            [
-                { foreignKey: 'userId', targetKey: 'id'},
-                { foreignKey: 'userNickname', targetKey: 'nickname'}
-            ]
+            { foreignKey: 'userId', targetKey: 'id' }
+                
         )
     }
 

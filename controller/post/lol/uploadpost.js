@@ -42,8 +42,8 @@ router.post('/', async (req,res) => {
         })
 
         const lolpostCreated = await LoLPost.create({
-            userNickname,
-            userId,
+            nickname : userNickname,
+            UserId : userId,
             gameMode,
             title,
             startTier,

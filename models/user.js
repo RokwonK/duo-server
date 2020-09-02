@@ -37,10 +37,7 @@ module.exports = class User extends Model {
     static associate(db) {
         db.User.hasMany(
             db.LoLPost,
-            [
-                { foreignKey: 'userId', sourceKey: 'id' }, 
-                { foreignKey: 'userNickname', sourceKey: 'nickname' }
-            ]
+            { foreignKey: 'userId', sourceKey: 'id' }
         )
     }
 }

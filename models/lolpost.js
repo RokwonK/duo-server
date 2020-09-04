@@ -30,9 +30,9 @@ module.exports = class LoLPost extends Model {
                     defaultValue: 100,
                 },
                 startTime: {
-                    type: DataTypes.STRING(10),
+                    type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: '',
+                    defaultValue: 0,
                 },
                 headCount: {
                     type: DataTypes.INTEGER,

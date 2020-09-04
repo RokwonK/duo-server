@@ -43,14 +43,14 @@ router.post('/', async (req,res) => {
 
         const lolpostCreated = await LoLPost.create({
             nickname : userNickname,
-            UserId : userId,
+            userId,
             gameMode,
             title,
             startTier,
             endTier,
             startTime,
             headCount,
-            top, bottom, mid, jungle, support,
+            top, bottom, mid, jungle, support, // 1,2 default는 2  선택하면 1
             content,
             talkon
         });

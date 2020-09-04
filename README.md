@@ -1,7 +1,7 @@
 # Duo-server
 게임 파티원 구하기 앱 - server  
-[IOS code 바로가기](https://github.com/RokwonK/Duo)   
-[Android code 바로가기](https://github.com/RokwonK/Duo)  
+[IOS code 바로가기](https://github.com/RokwonK/Duo-iOS)   
+[Android code 바로가기](https://github.com/kimhyungho/kimhyungho)  
 [Web code 바로가기](https://github.com/RokwonK/Duo)  
 
 <br>

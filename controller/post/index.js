@@ -4,6 +4,7 @@ const { User } = require('../../models')
 // 인가된 사용자 확인하고 next()
 router.use('/' ,  async (req, res, next) => {
     const { userId, userNickname } = req.body;
+
     try {
         const authorizedUser = await User.findOne({
             where : {

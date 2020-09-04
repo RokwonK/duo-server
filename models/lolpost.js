@@ -12,7 +12,7 @@ module.exports = class LoLPost extends Model {
                 gameMode: {
                     type: DataTypes.STRING(10),
                     allowNull: false,
-                    defaultValue: '',
+                    defaultValue: 'normal',
                 },
                 title: {
                     type: DataTypes.STRING(30),
@@ -22,12 +22,12 @@ module.exports = class LoLPost extends Model {
                 startTier: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: 0,
+                    defaultValue: 1,
                 },
                 endTier: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: 0,
+                    defaultValue: 100,
                 },
                 startTime: {
                     type: DataTypes.STRING(10),
@@ -37,40 +37,40 @@ module.exports = class LoLPost extends Model {
                 headCount: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: 0,
+                    defaultValue: 1,
                 },
                 top: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: 0,
+                    defaultValue: 2,
                 },
                 jungle: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: 0,
+                    defaultValue: 2,
                 },
                 mid: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: 0,
+                    defaultValue: 2,
                 },
                 bottom: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: 0,
+                    defaultValue: 2,
                 },
                 support: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: 0,
+                    defaultValue: 2,
                 },
                 talkon: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
-                    defaultValue: 0,
+                    defaultValue: 2,
                 },
                 content : {
-                    type: DataTypes.STRING(100),
+                    type: DataTypes.TEXT,
                     allowNull: false,
                     defaultValue: '',
                 }

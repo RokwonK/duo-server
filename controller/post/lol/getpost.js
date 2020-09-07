@@ -15,6 +15,7 @@ router.post('/', async (req, res) => {
         res.json(posts)
     }
     catch (err) {
+        console.log(1)
         res.status(500).send({ 'msg': 'server error', 'code': -500 })
     }
 })

@@ -94,7 +94,10 @@ module.exports = class LoLPost extends Model {
         db.LoLPost.belongsTo(
             db.User, 
             { foreignKey: 'userId', targetKey: 'id' }
-                
+        )
+        db.LoLPost.hasMany(
+            db.LoLComment,
+            { foreignKey: 'postId', sourceKey: 'id' }
         )
     }
 

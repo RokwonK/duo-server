@@ -5,6 +5,16 @@ module.exports = class LoLComment extends Model {
     static initialize(sequelize) {
         return super.init(
             {
+                nickname : {
+                    type : DataTypes.STRING(20),
+                    allowNull : false,
+                },
+                content : {
+                    type : DataTypes.TEXT,
+                    allowNull : false,
+                }
+
+
                 
             },
             {
@@ -23,6 +33,13 @@ module.exports = class LoLComment extends Model {
         )
     }
     static associate(db) {
-        
+        db.LoLComment.belongsTo(
+            db.User,
+            { foreignKey: 'userId', targetKey: 'id' }
+        )
+        db.LoLComment.belongsTo(
+            db.LoLPost,
+            { foreignKey: 'postId', targetKey: 'id' }
+        )   
     }
 }

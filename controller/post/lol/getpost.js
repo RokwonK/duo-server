@@ -59,7 +59,7 @@ router.post('/filter', async (req, res) => {
 
         const filteringData = await LoLPost.findAll({
             where : whereOptions,
-            order : ["starTime", "ASC"]
+            //order : ["starTime", "ASC"]
         })
         if (!filteringData) throw 'no data'
         

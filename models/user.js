@@ -39,5 +39,9 @@ module.exports = class User extends Model {
             db.LoLPost,
             { foreignKey: 'userId', sourceKey: 'id' }
         )
+        db.User.hasMany(
+            db.LoLComment,
+            { foreignKey: 'userId', sourceKey: 'id' }
+        )
     }
 }

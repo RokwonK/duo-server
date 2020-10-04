@@ -7,22 +7,22 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 const sequelize = require('./models').sequelize;
-const controller = require('./controller');
+const controllers = require('./controllers');
 const createError = require('http-errors');
 
 // 환경변수 접근에 가능
 dotenv.config();
-const app = express();
-
 // mysql과 연동
 sequelize.sync()
 .then(() => console.log("sequelize connect!"))
-.catch( err => console.log(`sequelize error : ${err}`))
+.catch( err => console.log(`sequelize error : ${err}`) )
 
+const app = express();
 const PORT = process.env.PORT || 8000;
 const develope = process.env.NODE_ENV === 'development' ? 'dev' : 'combined';
 
 
+// 기초 미들웨어 설정
 app.use(morgan(develope));
 app.use(express.json());
 app.use(express.urlencoded({ extended : false}));
@@ -31,7 +31,8 @@ app.use(express.urlencoded({ extended : false}));
 app.use(cors());
 
 
-app.use('/', controller);
+// 라우트
+app.use('/', controllers);
 
 
 

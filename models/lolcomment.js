@@ -12,10 +12,7 @@ module.exports = class LoLComment extends Model {
                 content : {
                     type : DataTypes.TEXT,
                     allowNull : false,
-                }
-
-
-                
+                }                
             },
             {
                 sequelize,
@@ -35,7 +32,7 @@ module.exports = class LoLComment extends Model {
     static associate(db) {
         db.LoLComment.belongsTo(
             db.User,
-            { foreignKey: 'userId', targetKey: 'id' }
+            { foreignKey: 'userToken', targetKey: 'userToken' }
         )
         db.LoLComment.belongsTo(
             db.LoLPost,

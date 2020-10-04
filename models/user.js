@@ -17,6 +17,10 @@ module.exports = class User extends Model {
                 nickname : {
                     type : DataTypes.STRING(20),
                     allowNull : false,
+                },
+                userToken : {
+                    type : DataTypes.STRING(200),
+                    allowNull : false
                 }
             },
             {
@@ -37,11 +41,11 @@ module.exports = class User extends Model {
     static associate(db) {
         db.User.hasMany(
             db.LoLPost,
-            { foreignKey: 'userId', sourceKey: 'id' }
+            { foreignKey: 'userToken', sourceKey: 'userToken' }
         )
         db.User.hasMany(
             db.LoLComment,
-            { foreignKey: 'userId', sourceKey: 'id' }
+            { foreignKey: 'userToken', sourceKey: 'userToken' }
         )
     }
 }

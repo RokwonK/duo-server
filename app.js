@@ -7,7 +7,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 const sequelize = require('./models').sequelize;
-const controllers = require('./controllers');
+const routes = require('./routes');
 const createError = require('http-errors');
 
 // 환경변수 접근에 가능
@@ -23,6 +23,7 @@ const develope = process.env.NODE_ENV === 'development' ? 'dev' : 'combined';
 
 
 // 기초 미들웨어 설정
+// 로그 찍히게, req.body(string => json으로 인코딩)
 app.use(morgan(develope));
 app.use(express.json());
 app.use(express.urlencoded({ extended : false}));
@@ -31,19 +32,17 @@ app.use(express.urlencoded({ extended : false}));
 app.use(cors());
 
 
-// 라우트
-app.use('/', controllers);
+// 어떤 url이든 routes에서 차리
+app.use('/', routes);
 
-
-
-
-// 없는 경로가 없다 404 에러
+// 경로가 없다 404 에러
 app.use((req,res,next) => {
     next(createError(404));
 })
 
 // error_handler
 app.use((err,req,res,next) => {
+    console.log(err);
     res.send(`${err.status}`);
 })
 

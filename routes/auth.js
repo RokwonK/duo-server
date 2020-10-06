@@ -1,14 +1,16 @@
 const router = require('express').Router();
 const social_auth = require('../controllers/auth/social_auth');
+const account = require('../controllers/auth/account');
 
-// post 안에서 전부 처리
-// 보내주는 값 => headers.Authorization = accesstoken || usertoken
-// body에 nickname 필드가 있으면 회원가입, 없으면, 로그인
+/*#################
+    유저관련 CURD
+###################*/
 
 // 유저 삭제 및 업데이트 요청
 // url => '/auth'
-router.delete('/')
-router.update('/')
+router.delete('/',account.confirmAccount, account.deleteAccount );
+router.put('/',account.confirmAccount, account.updateAccount );
+
 
 
 // 유저 생성 및 회원 정보 요청, social auth

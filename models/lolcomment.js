@@ -32,7 +32,7 @@ module.exports = class LoLComment extends Model {
     static associate(db) {
         db.LoLComment.belongsTo(
             db.User,
-            { foreignKey: 'userToken', targetKey: 'userToken' }
+            { foreignKey: 'userId', targetKey: 'id' }
         )
         db.LoLComment.belongsTo(
             db.LoLPost,

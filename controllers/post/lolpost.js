@@ -1,0 +1,248 @@
+'use strict'
+
+const { LoLPost } = require('../../models');
+
+/*###################
+    lolpost create
+####################*/
+exports.addlolPost = async (req, res, next) => {
+    const {
+        userNickname,
+        userId,
+        // 게시물에 올라갈 것들
+        gameMode,
+        title,
+        startTier,
+        endTier,
+        startTime,
+        headCount,
+        top, bottom, mid, jungle, support,
+        content,
+        talkon
+    } = req.body;
+
+    let value = [
+        userNickname,
+        userId,
+        gameMode,
+        title,
+        startTier,
+        endTier,
+        startTime,
+        headCount,
+        top, bottom, mid, jungle, support,
+        content,
+        talkon
+    ]
+
+    try{
+        value.forEach(v => {
+            if (!v || v === 'undefined') throw 'bad prameters' 
+        })
+
+        const lolpostCreated = await LoLPost.create({
+            nickname : userNickname,
+            userId,
+            gameMode,
+            title,
+            startTier,
+            endTier,
+            startTime,
+            headCount,
+            top, bottom, mid, jungle, support, // 1,2 default는 2  선택하면 1
+            content,
+            talkon
+        });
+        console.log(lolpostCreated)
+        if (lolpostCreated === null) throw 'post create error'
+
+        res.send({'msg' : 'create success'});
+    }
+    catch (err) {
+        if (err === 'post create error' || err === 'bad prameters')
+            res.status(412).send({'msg' : err, 'code' : -412});
+        else 
+            res.status(500).send({'msg' : 'server error', 'code' : -500});
+    }
+}
+
+
+/*###################
+    lolpost get
+####################*/
+exports.getlolPost = async (req, res, next) => {
+    try {
+        const posts = await LoLPost.findAll()
+        res.json(posts)
+    }
+    catch (err) {
+        res.status(500).send({ 'msg': 'server error', 'code': -500 })
+    }
+}
+
+
+/*###################
+    lolpost filter해서 가져오기
+####################*/
+exports.FilterlolPost = async (req, res, next) => {
+    
+    const {
+        gameMode,
+        headCount,
+        wantTier,
+        startTime,
+        top, bottom, mid, jungle, support,
+        talkon,
+    } = req.body;
+
+    try {
+        const whereOptions = {};
+        const indexName = ["top", "bottom", "mid", "jungle", "support", "talkon"];
+        const positionArray = [ top, bottom, mid, jungle, support, talkon ];
+
+        // find해서 일정 갯수만 보내주기, 프론트에서 화면의 끝에 다다들면 다시 개수요청
+        if (gameMode !== "all") whereOptions["gameMode"] = gameMode;
+        whereOptions["headCount"] = { [Op.lte] : headCount }
+        // 자신이 포함되는 곳을 찾고 싶은 것
+        whereOptions["startTier"] = { [Op.lte] : wantTier }
+        whereOptions["endTier"] = { [Op.gte] : wantTier }
+        whereOptions["startTime"] = { [Op.gte] : startTime }
+        
+        positionArray.forEach((value, index) => {
+            if (value === 3)
+                whereOptions[indexName[index]] = { [Op.lte] : value}
+            else
+                whereOptions[indexName[index]] = value;
+        })
+
+        // 보내는 양의 갯수 제한을 둘 것인가?
+
+        const filteringData = await LoLPost.findAll({
+            where : whereOptions,
+            //order : ["starTime", "ASC"]
+        })
+        if (!filteringData) throw 'no data'
+        
+        console.log(filteringData);
+        res.send(filteringData);
+    }
+    catch (err) {
+        if (err === 'no data')
+            res.status(412).send({ 'msg': err, 'code': -412 })
+        else if (err === 'bad access')
+            res.status(412).send({ 'msg': 'bad access', 'code': -412 })
+        else
+            res.status(500).send({ 'msg': 'server error', 'code': -500 })
+    }
+
+}
+
+/*###################
+    lolpost 자신의 게시글 가져오기
+####################*/
+exports.getMyPost = async (req, res, next) => {
+    if (req === 'undefined') throw 'bad access'
+
+    // userId(user의 id(primaryKey)인 userId)를 받아서
+    // 해당 userId(foreignKey)를 가진 post출력
+    const { userId } = req.body
+
+    // overwatch, battleground 테이블은 join으로 처리 (include)
+    try {
+        const mypost = await LoLPost.findAll({
+            where: { userId },
+        })
+        res.send(mypost)
+    }
+    catch (err) {
+        if (err === 'bad access')
+            res.status(412).send({ 'msg': 'bad access', 'code': -412 })
+        else
+            res.status(500).send({ 'msg': 'server error', 'code': -500 })
+    }
+
+}
+
+
+
+/*###################
+    lolpost 지우기
+####################*/
+exports.deletelolPost = async (req, res, next) => {
+    if (req === 'undefined') throw 'bad access'
+
+    const postId = req.body.postId
+    try {
+        await LoLPost.destroy({ where: { id: postId } })
+
+        res.send({'msg' : 'delete success'});
+    }
+    catch (err) {
+        if (err === 'bad access' || err === 'bad delete')
+            res.status(412).send({ 'msg': err, 'code': -412 })
+        else
+            res.status(500).send({ 'msg': 'server error', 'code': -500 })
+    }
+}
+
+
+/*###################
+    lolpost 수정하기
+####################*/
+exports.updatelolPost = async (req, res, next) => {
+    const {
+        postId,
+        // 게시물에 올라갈 것들
+        gameMode,
+        title,
+        startTier,
+        endTier,
+        startTime,
+        headCount,
+        top, bottom, mid, jungle, support,
+        content,
+        talkon
+    } = req.body;
+    let value = [
+        postId,
+        // 게시물에 올라갈 것들
+        gameMode,
+        title,
+        startTier,
+        endTier,
+        startTime,
+        headCount,
+        top, bottom, mid, jungle, support,
+        content,
+        talkon
+    ]
+
+    try{
+        value.forEach(v => {
+            if (!v || v === 'undefined') throw 'bad prameters' 
+        })
+
+        await LoLPost.update({
+            gameMode,
+            title,
+            startTier,
+            endTier,
+            startTime,
+            headCount,
+            top, bottom, mid, jungle, support,
+            content,
+            talkon
+        },{
+            where : {id : postId}
+        });
+
+        res.send({'msg' : 'update success'});
+    }
+    catch (err) {
+        if (err === 'post create error' || err === 'bad prameters')
+            res.status(412).send({'msg' : err, 'code' : -412});
+        else 
+            res.status(500).send({'msg' : 'server error', 'code' : -500});
+    }
+
+}

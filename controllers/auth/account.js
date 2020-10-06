@@ -5,7 +5,7 @@ const { User } = require('../../models')
 // User 확인
 exports.confirmAccount = async (req, res, next) => {
     const userToken = req.headers.authorization;
-    const userId = req.body.id;
+    const { userId } = req.body;
 
     try {
         const exist_user = await User.findOne({where : {userToken, id : userId}});

@@ -169,11 +169,12 @@ exports.getMyPost = async (req, res, next) => {
     lolpost 지우기
 ####################*/
 exports.deletelolPost = async (req, res, next) => {
-    if (req === 'undefined') throw 'bad access'
+    
 
-    const postId = req.body.postId
+    const {postId, userId} = req.body;
+    
     try {
-        await LoLPost.destroy({ where: { id: postId } })
+        await LoLPost.destroy({ where: { id: postId, userId} })
 
         res.send({'msg' : 'delete success'});
     }

@@ -36,7 +36,7 @@ exports.authGoogle = async (req, res, next) => {
         // 이미 있는 유저
         if (!nickname || nickname === 'undefined') {
             if(exist_user) 
-                return res.send({'userToken' : exist_user.userToken, 'nickname' : exist_user.nickname, 'id' : exist_user.id})
+                return res.send({'userToken' : exist_user.userToken, 'nickname' : exist_user.nickname, 'userId' : exist_user.id})
             else 
                 return res.status(400).send({'msg' : 'wrong access', 'code' : -401})
         }
@@ -63,7 +63,7 @@ exports.authGoogle = async (req, res, next) => {
                 userToken : jsontoken
             })
 
-            return res.send({'userToken' : user_created.userToken, 'nickname' : user_created.nickname, 'id' : exist_user.id})
+            return res.send({'userToken' : user_created.userToken, 'nickname' : user_created.nickname, 'userId' : user_created.id})
         }
    
     }
@@ -104,7 +104,7 @@ exports.authKakao = async (req,res, next) => {
         // 이미 있는 유저
         if (!nickname || nickname === 'undefined') {
             if(exist_user) 
-                return res.send({'userToken' : exist_user.userToken, 'nickname' : exist_user.nickname, 'id' : exist_user.id})
+                return res.send({'userToken' : exist_user.userToken, 'nickname' : exist_user.nickname, 'userId' : exist_user.id})
             else 
                 return res.status(400).send({'msg' : 'wrong access', 'code' : -401})
         }
@@ -128,7 +128,7 @@ exports.authKakao = async (req,res, next) => {
                 userToken : jsontoken
             })
 
-            return res.send({'userToken' : user_created.userToken, 'nickname' : user_created.nickname, 'id' : exist_user.id})
+            return res.send({'userToken' : user_created.userToken, 'nickname' : user_created.nickname, 'userId' : user_created.id})
         }
     }
     catch (err) {
@@ -169,7 +169,7 @@ exports.authNaver = async (req, res, next) => {
         // 이미 있는 유저
         if (!nickname || nickname === 'undefined') {
             if(exist_user) 
-                return res.send({'userToken' : exist_user.userToken, 'nickname' : exist_user.nickname, 'id' : exist_user.id})
+                return res.send({'userToken' : exist_user.userToken, 'nickname' : exist_user.nickname, 'userId' : exist_user.id})
             else 
                 return res.status(400).send({'msg' : 'wrong access', 'code' : -401})
         }
@@ -193,7 +193,7 @@ exports.authNaver = async (req, res, next) => {
                 userToken : jsontoken
             })
 
-            return res.send({'userToken' : user_created.userToken, 'nickname' : user_created.nickname, 'id' : exist_user.id})
+            return res.send({'userToken' : user_created.userToken, 'nickname' : user_created.nickname, 'userId' : user_created.id})
         }
 
     }

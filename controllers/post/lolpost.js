@@ -93,19 +93,19 @@ exports.FilterlolPost = async (req, res, next) => {
         startTime,
         top, bottom, mid, jungle, support,
         talkon,
-    } = req.body;
+    } = req.query;
 
     try {
         const whereOptions = {};
         const indexName = ["top", "bottom", "mid", "jungle", "support", "talkon"];
-        const positionArray = [ top, bottom, mid, jungle, support, talkon ];
+        const positionArray = [ parseInt(top), parseInt(bottom), parseInt(mid), parseInt(jungle), parseInt(support), parseInt(talkon) ];
 
         // find해서 일정 갯수만 보내주기, 프론트에서 화면의 끝에 다다들면 다시 개수요청
         if (gameMode !== "all") whereOptions["gameMode"] = gameMode;
-        whereOptions["headCount"] = { [Op.lte] : headCount }
+        whereOptions["headCount"] = { [Op.lte] : parseInt(headCount) }
         // 자신이 포함되는 곳을 찾고 싶은 것
-        whereOptions["startTier"] = { [Op.lte] : wantTier }
-        whereOptions["endTier"] = { [Op.gte] : wantTier }
+        whereOptions["startTier"] = { [Op.lte] : parseInt(wantTier) }
+        whereOptions["endTier"] = { [Op.gte] : parseInt(wantTier) }
         whereOptions["startTime"] = { [Op.gte] : startTime }
         
         positionArray.forEach((value, index) => {
@@ -145,12 +145,12 @@ exports.getMyPost = async (req, res, next) => {
 
     // userId(user의 id(primaryKey)인 userId)를 받아서
     // 해당 userId(foreignKey)를 가진 post출력
-    const { userId } = req.body
+    const { userId } = req.query
 
     // overwatch, battleground 테이블은 join으로 처리 (include)
     try {
         const mypost = await LoLPost.findAll({
-            where: { userId },
+            where: { userId : parseInt(userId) },
         })
         res.send(mypost)
     }

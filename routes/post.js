@@ -18,7 +18,7 @@ router.put('/lol', account.confirmAccount, lolpost.updatelolPost);
 // fitering 해서 가져오는 데이터
 router.get('/lol/filter', lolpost.FilterlolPost);
 // 내 포스트 가져오기
-router.get('/me', account.confirmAccount, lolpost.getMyPost);
+router.get('/me', lolpost.getMyPost);
 
 
 module.exports = router;

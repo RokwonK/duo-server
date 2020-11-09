@@ -23,7 +23,9 @@ exports.authGoogle = async (req, res, next) => {
     try {
         // social에서 유저정보 가져오기
         const user_info = await fetch(google_url+query).then(data  => data.json());
-        if (user_info === 'undefined') throw 'bad token'
+        if (user_info.sub === 'undefined' || !user_info.sub) throw 'bad token'
+        console.log(user_info.sub);
+
 
         // 유저가 우리 디비안에 존재하는지 확인
         const exist_user = await User.findOne({
@@ -52,7 +54,7 @@ exports.authGoogle = async (req, res, next) => {
                 nick : 'google'
             },process.env.JWT_SECRET, {
                 expiresIn : '1h',
-                issuer : '토큰발급자'
+                issuer : 'rokwon'
             });
 
             // 유저 생성 후 토큰과 닉네임 보내주기
@@ -83,7 +85,7 @@ exports.authGoogle = async (req, res, next) => {
 exports.authKakao = async (req,res, next) => {
     const accesstoken = req.headers.authorization;
     const { nickname } = req.body;
-    const kakao_login_request_header = "Bearer " + token;
+    const kakao_login_request_header = "Bearer " + accesstoken;
     const options = {
         headers :  {
             'Authorization' : kakao_login_request_header
@@ -92,7 +94,9 @@ exports.authKakao = async (req,res, next) => {
 
     try {
         const user_info = await fetch(kakao_url,options).then(data => data.json());
-        if (user_info === 'undefined') throw 'bad token'
+        if (user_info.id === 'undefined' || !user_info.id) throw 'bad token'
+        console.log(user_info.id)
+        
 
         const exist_user = await User.findOne({
             where : {
@@ -118,7 +122,7 @@ exports.authKakao = async (req,res, next) => {
                 nick : 'kakao'
             },process.env.JWT_SECRET, {
                 expiresIn : '1h',
-                issuer : '토큰발급자'
+                issuer : 'rokwon'
             });
 
             const user_created = await User.create({
@@ -147,7 +151,6 @@ exports.authKakao = async (req,res, next) => {
 exports.authNaver = async (req, res, next) => {
     const accesstoken = req.headers.authorization;
     const { nickname } = req.body;
-
     const naver_login_request_header = "Bearer " + accesstoken;
     const options = {
         headers :  {
@@ -157,7 +160,8 @@ exports.authNaver = async (req, res, next) => {
 
     try {
         const user_info = await fetch(naver_url,options).then(data => data.json());
-        if (user_info === 'undefined') throw 'bad token'
+        if (user_info.response.id === 'undefined' || !user_info.response.id) throw 'bad token'
+        console.log(user_info.response.id);
 
         const exist_user = await User.findOne({
             where : {
@@ -183,7 +187,7 @@ exports.authNaver = async (req, res, next) => {
                 nick : 'naver'
             },process.env.JWT_SECRET, {
                 expiresIn : '1h',
-                issuer : '토큰발급자'
+                issuer : 'rokwon'
             });
 
             const user_created = await User.create({

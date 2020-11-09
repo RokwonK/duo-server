@@ -10,7 +10,7 @@ const lolpost = require('../controllers/post/lolpost');
 
 // '/post' base
 // lolpost 관련 crud
-router.get('/lol', lolpost.getMyPost);
+router.get('/lol', lolpost.getlolPost);
 router.post('/lol', account.confirmAccount, lolpost.addlolPost)
 router.delete('/lol', account.confirmAccount, lolpost.deletelolPost)
 router.put('/lol', account.confirmAccount, lolpost.updatelolPost);

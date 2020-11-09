@@ -1,7 +1,8 @@
 'use strict'
 
-const express = require('express');
-// 
+// helmat 등 보안 모듈 추가하기
+
+const express = require('express'); 
 const morgan = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -40,6 +41,7 @@ app.use((req,res,next) => {
     next(createError(404));
 })
 
+// 모든 에러 이쪽으로 던지기
 // error_handler
 app.use((err,req,res,next) => {
     console.log(err);

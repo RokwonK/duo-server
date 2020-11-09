@@ -73,7 +73,7 @@ exports.addlolPost = async (req, res, next) => {
 exports.getlolPost = async (req, res, next) => {
     try {
         const posts = await LoLPost.findAll()
-        res.json(posts)
+        res.send(posts)
     }
     catch (err) {
         res.status(500).send({ 'msg': 'server error', 'code': -500 })

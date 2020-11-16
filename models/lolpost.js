@@ -29,7 +29,7 @@ module.exports = class LoLPost extends Model {
                     allowNull: false,
                     defaultValue: 100,
                 },
-                startTime: {
+                endTime: {
                     type: DataTypes.DATE,
                     allowNull: false,
                 },

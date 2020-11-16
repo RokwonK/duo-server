@@ -1,6 +1,7 @@
 'use strict'
 
 const { LoLPost } = require('../../models');
+const { Op } = require('sequelize');
 
 /*###################
     lolpost create
@@ -72,7 +73,12 @@ exports.addlolPost = async (req, res, next) => {
 ####################*/
 exports.getlolPost = async (req, res, next) => {
     try {
-        const posts = await LoLPost.findAll()
+        const {
+            offset,
+            limit
+        } = req.query;
+
+        const posts = await LoLPost.findAll({offset, limit})
         res.send(posts)
     }
     catch (err) {
@@ -90,7 +96,6 @@ exports.FilterlolPost = async (req, res, next) => {
         gameMode,
         headCount,
         wantTier,
-        startTime,
         top, bottom, mid, jungle, support,
         talkon,
     } = req.query;
@@ -106,7 +111,6 @@ exports.FilterlolPost = async (req, res, next) => {
         // 자신이 포함되는 곳을 찾고 싶은 것
         whereOptions["startTier"] = { [Op.lte] : parseInt(wantTier) }
         whereOptions["endTier"] = { [Op.gte] : parseInt(wantTier) }
-        whereOptions["startTime"] = { [Op.gte] : startTime }
         
         positionArray.forEach((value, index) => {
             if (value === 3)

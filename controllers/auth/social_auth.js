@@ -52,7 +52,7 @@ exports.authGoogle = async (req, res, next) => {
             const jsontoken = jwt.sign({
                 id : user_info.sub,
                 nick : 'google'
-            },process.env.JWT_SECRET, {
+            },"rlafhrdnjscjswo", {
                 expiresIn : '1h',
                 issuer : 'rokwon'
             });
@@ -120,7 +120,7 @@ exports.authKakao = async (req,res, next) => {
             const jsontoken = jwt.sign({
                 id : user_info.id,
                 nick : 'kakao'
-            },process.env.JWT_SECRET, {
+            },"rlafhrdnjscjswo", {
                 expiresIn : '1h',
                 issuer : 'rokwon'
             });
@@ -185,7 +185,7 @@ exports.authNaver = async (req, res, next) => {
             const jsontoken = jwt.sign({
                 id : user_info.response.id,
                 nick : 'naver'
-            },process.env.JWT_SECRET, {
+            },"rlafhrdnjscjswo", {
                 expiresIn : '1h',
                 issuer : 'rokwon'
             });

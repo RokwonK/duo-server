@@ -98,6 +98,8 @@ exports.FilterlolPost = async (req, res, next) => {
         wantTier,
         top, bottom, mid, jungle, support,
         talkon,
+        offset,
+        limit
     } = req.query;
 
     try {
@@ -123,6 +125,8 @@ exports.FilterlolPost = async (req, res, next) => {
 
         const filteringData = await LoLPost.findAll({
             where : whereOptions,
+            limit,
+            offset
             //order : ["starTime", "ASC"]
         })
         if (!filteringData) throw 'no data'

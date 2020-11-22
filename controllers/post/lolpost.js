@@ -78,7 +78,10 @@ exports.getlolPost = async (req, res, next) => {
             limit
         } = req.query;
 
-        const posts = await LoLPost.findAll({offset, limit})
+        const posts = await LoLPost.findAll({
+            offset : parseInt(offset),  
+            limit : parseInt(limit)
+        })
         res.send(posts)
     }
     catch (err) {
@@ -125,8 +128,8 @@ exports.FilterlolPost = async (req, res, next) => {
 
         const filteringData = await LoLPost.findAll({
             where : whereOptions,
-            limit,
-            offset
+            offset : parseInt(offset),  
+            limit : parseInt(limit)
             //order : ["starTime", "ASC"]
         })
         if (!filteringData) throw 'no data'
